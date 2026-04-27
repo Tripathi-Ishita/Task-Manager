@@ -1,45 +1,32 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import TaskDetailScreen from "./src/screens/TaskDetailScreen";
+import HomeScreen from "./src/screens/HomeScreen";
+import SplashScreen from "./src/screens/SplashScreen";
+import { StatusBar } from "react-native";
+import { createStaticNavigation } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+const RootStack = createNativeStackNavigator({
+  initialRouteName: 'Splash',
+  screens:
+  {
+    Home: { screen: HomeScreen, options: { headerShown: false } },
+    Splash: { screen: SplashScreen, options: { headerShown: false } },
+    TaskDetail: { screen: TaskDetailScreen, options: { headerShown: false } }
+  }
+});
+const Navigation = createStaticNavigation(RootStack);
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
+const App = () => {
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
+      <StatusBar barStyle="dark-content"
+        backgroundColor="transparent"
       />
-    </View>
+      <Navigation />
+    </SafeAreaProvider>
+
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
+};
 export default App;
