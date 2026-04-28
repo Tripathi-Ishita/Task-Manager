@@ -6,7 +6,7 @@ import SplashScreen from "./src/screens/SplashScreen";
 import { StatusBar } from "react-native";
 import { createStaticNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { TaskProvider } from "./src/screens/TaskContext";
+
 
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'Splash',
@@ -22,12 +22,12 @@ const Navigation = createStaticNavigation(RootStack);
 const App = () => {
   return (
     <SafeAreaProvider>
-      <TaskProvider>
-        <StatusBar barStyle="dark-content"
-          backgroundColor="transparent"
-        />
-        <Navigation />
-      </TaskProvider>
+
+      <StatusBar barStyle="dark-content"
+        backgroundColor="transparent"
+      />
+      <Navigation />
+
     </SafeAreaProvider>
 
   );

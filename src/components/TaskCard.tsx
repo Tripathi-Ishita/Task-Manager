@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Alert, View, Text, TouchableOpacity } from 'react-native';
-import { useTasks } from "../screens/TaskContext";
+import { useTaskStore } from "../store/taskStore";
 import Ionicons, { IoniconsIconName } from "@react-native-vector-icons/ionicons";
 
 type Task = {
@@ -78,7 +78,7 @@ const CATEGORY_CONFIG: Record<string, CategoryStyle> = {
 };
 
 const TaskCard = ({ item }: { item: Task }) => {
-    const { deleteTask } = useTasks();
+    const deleteTask = useTaskStore(state => state.deleteTask);
     const handleDelete = () => {
         Alert.alert(
             "Delete Task",

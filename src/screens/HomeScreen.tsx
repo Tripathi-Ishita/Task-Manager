@@ -16,7 +16,7 @@ import Ionicons, { IoniconsIconName } from '@react-native-vector-icons/ionicons'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FlatList } from 'react-native';
 import WeatherChip from '../components/WeatherChip';
-import { useTasks } from './TaskContext';
+import { useTaskStore } from '../store/taskStore';
 import TaskCard from '../components/TaskCard';
 
 type PillProps = {
@@ -100,7 +100,8 @@ const CATEGORY_CONFIG: Record<string, CategoryStyle> = {
 const HomeScreen = () => {
     const navigation = useNavigation<any>();
     // <Button  onPress={()=>navigation.navigate('TaskDetail')}
-    const { tasks, deleteTask } = useTasks();
+    const tasks = useTaskStore(state => state.tasks);
+    const deleteTasks = useTaskStore(state => state.deleteTask);
 
     const [myDate, setMyDate] = useState(new Date()); //initial value is current date
     //to decide if popup of calender is visible or not?
