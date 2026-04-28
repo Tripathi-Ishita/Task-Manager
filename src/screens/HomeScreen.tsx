@@ -1,4 +1,7 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, } from '@react-navigation/native';
+import { BackHandler, Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+
 import React from 'react';
 import {
     ScrollView,
@@ -7,12 +10,14 @@ import {
     TouchableOpacity,
     StyleSheet,
 } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons, { IoniconsIconName } from '@react-native-vector-icons/ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FlatList } from 'react-native';
-import Weather
+import WeatherChip from '../components/WeatherChip';
+import { useTasks } from './TaskContext';
+import TaskCard from '../components/TaskCard';
 
 type PillProps = {
     date: Date;
@@ -90,52 +95,12 @@ const CATEGORY_CONFIG: Record<string, CategoryStyle> = {
     },
 };
 
-const TaskCard = ({ item }: { item: Task }) => {
-    const categoryStyle = CATEGORY_CONFIG[item.category];
-    return (
-        <View style={[styles.cardContainer, { backgroundColor: categoryStyle.cardBg }]}>
-            <View
-                style={[
-                    styles.iconWrapper,
-                    { backgroundColor: categoryStyle.iconColor + '22' },
-                ]}
-            >
-                <Ionicons
-                    name={categoryStyle.icon}
-                    size={22}
-                    color={categoryStyle.iconColor}
-                />
-            </View>
-            <View>
-                <Text style={styles.taskTitle}>{item.title}</Text>
-                <Text style={styles.taskTime}>
-                    {new Date(item.startTime).toLocaleTimeString('en-US', {
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        hour12: true,
-                    })}
-                    -
-                    {new Date(item.endTime).toLocaleTimeString('en-US', {
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        hour12: true,
-                    })}
-                </Text>
-            </View>
-            <Ionicons
-                style={{ alignSelf: 'center' }}
-                color="#a9a9a9"
-                name="ellipsis-vertical"
-                size={25}
-            />
-        </View>
-    );
-};
+
 
 const HomeScreen = () => {
     const navigation = useNavigation<any>();
     // <Button  onPress={()=>navigation.navigate('TaskDetail')}
-    const route = useRoute<any>();
+    const { tasks, deleteTask } = useTasks();
 
     const [myDate, setMyDate] = useState(new Date()); //initial value is current date
     //to decide if popup of calender is visible or not?
@@ -164,25 +129,39 @@ const HomeScreen = () => {
         d.setDate(myDate.getDate() + i);
         return d;
     });
-    const [allTasks, setAllTasks] = useState<Task[]>([]);
-    useEffect(() => {
-        //check if there is a new task
-        if (route.params?.newTask) {
-            const incomingTask = route.params.newTask;
-            //add it to the task array
-            setAllTasks(prevTasks => [...prevTasks, incomingTask]);
-            navigation.setParams({ newTask: null });
-        }
-    }, [route.params?.newTask, navigation]);
 
 
-    const dailyTasks = allTasks
+
+    const dailyTasks = tasks
         .filter(task => {
             return new Date(task.date).toDateString() === selectedPill.toDateString();
         })
         .sort((a, b) => {
             return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
         });
+
+
+
+    useFocusEffect(
+        useCallback(() => {
+            const onBackPress = () => {
+                Alert.alert(
+                    'Exit App',
+                    'Do you want to exit?',
+                    [
+                        { text: 'No', style: 'cancel' },
+                        { text: 'Yes', onPress: () => BackHandler.exitApp() },
+                    ]
+                );
+                return true;
+            };
+
+            const subscription = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+            return () =>
+                subscription.remove();
+        }, [])
+    );
+
     return (
         <SafeAreaView style={styles.container}>
             {/* the header */}
@@ -209,7 +188,7 @@ const HomeScreen = () => {
                     mode="date"
                     display="default"
                     minimumDate={new Date()}
-                    onChange={handleDateChange}
+                    onValueChange={handleDateChange}
                 />
             )}
             <WeatherChip />

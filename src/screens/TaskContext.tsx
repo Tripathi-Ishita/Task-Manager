@@ -12,6 +12,7 @@ export type Task = {
 type TaskContextType = {
     tasks: Task[];
     addTask: (task: Task) => void;//takes one task and returns nthg
+    deleteTask: (id: string) => void;
 };
 //the global bucket to hold task
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
@@ -20,8 +21,11 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     const addTask = (task: Task) => {
         setTasks(prev => [...prev, task]);
     };
+    const deleteTask = (id: string) => {
+        setTasks(prev => prev.filter(task => task.id !== id));
+    };
     return (
-        <TaskContext.Provider value={{ tasks, addTask }}>
+        <TaskContext.Provider value={{ tasks, addTask, deleteTask }}>
             {children}
         </TaskContext.Provider>
     );

@@ -6,12 +6,14 @@ import { StyleSheet } from "react-native";
 import { useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CategoryChip from "../components/CategoryChip";
+import { useTasks } from "./TaskContext";
 
 
 
 const TaskDetailScreen = () => {
     const navigation = useNavigation<any>();
     const route = useRoute<any>();
+    const { addTask } = useTasks();
     const passedDate = route.params?.selectedDate ? new Date(route.params.selectedDate)
         : new Date();
     const [text, setText] = useState('');
@@ -72,12 +74,9 @@ const TaskDetailScreen = () => {
             endTime: fullEndDate.toISOString(),
             category: selectedCategory || 'General'
         };
-        //navigate data to homescreen
-        navigation.navigate({
-            name: 'Home',
-            params: { newTask },
-            merge: true,
-        });
+        addTask(newTask);
+        navigation.goBack();
+
 
 
     };

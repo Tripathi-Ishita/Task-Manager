@@ -27,7 +27,7 @@ const SplashScreen = () => {
                 </Text>
             </View>
             {/* the button */}
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.replace('Home')}>
                 <Text style={styles.buttonText}>Get Started</Text>
             </TouchableOpacity>
         </LinearGradient>

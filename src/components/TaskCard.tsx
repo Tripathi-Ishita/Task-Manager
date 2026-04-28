@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Alert, View, Text, TouchableOpacity } from 'react-native';
 import { useTasks } from "../screens/TaskContext";
-import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons, { IoniconsIconName } from "@react-native-vector-icons/ionicons";
 
 type Task = {
     id: string;
@@ -12,7 +12,7 @@ type Task = {
     category: string;
 };
 type CategoryStyle = {
-    icon: string;
+    icon: IoniconsIconName;
     iconColor: string;
     cardBg: string;
 };
@@ -107,7 +107,7 @@ const TaskCard = ({ item }: { item: Task }) => {
                     { backgroundColor: categoryStyle.iconColor + '22' },
                 ]}
             >
-                <Icon
+                <Ionicons
                     name={categoryStyle.icon}
                     size={22}
                     color={categoryStyle.iconColor}
@@ -130,7 +130,7 @@ const TaskCard = ({ item }: { item: Task }) => {
                 </Text>
             </View>
             <TouchableOpacity onPress={handleDelete}>
-                <Icon
+                <Ionicons
                     style={{ alignSelf: 'center' }}
                     color="#a9a9a9"
                     name="ellipsis-vertical"
