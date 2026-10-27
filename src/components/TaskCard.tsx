@@ -113,7 +113,7 @@ const TaskCard = ({ item }: { item: Task }) => {
                     color={categoryStyle.iconColor}
                 />
             </View>
-            <View>
+            <View style={{ flex: 1 }}>
                 <Text style={styles.taskTitle}>{item.title}</Text>
                 <Text style={styles.taskTime}>
                     {new Date(item.startTime).toLocaleTimeString('en-US', {

@@ -6,14 +6,14 @@ import { StyleSheet } from "react-native";
 import { useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CategoryChip from "../components/CategoryChip";
-import { useTasks } from "./TaskContext";
+import { useTaskStore } from "../store/taskStore";
 
 
 
 const TaskDetailScreen = () => {
     const navigation = useNavigation<any>();
     const route = useRoute<any>();
-    const { addTask } = useTasks();
+    const addTask = useTaskStore(state => state.addTask);
     const passedDate = route.params?.selectedDate ? new Date(route.params.selectedDate)
         : new Date();
     const [text, setText] = useState('');
