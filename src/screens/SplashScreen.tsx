@@ -22,8 +22,7 @@ const SplashScreen = () => {
                 <Text style={styles.title}>To-Do List</Text>
 
                 <Text style={styles.description}>
-                    Maecenas vehicula ligula mauris, sed efficitur tortor tincidunt vitae.
-                    Suspendisse mattis viverra purus.
+                    Plan your day, one task at a time.
                 </Text>
             </View>
             {/* the button */}

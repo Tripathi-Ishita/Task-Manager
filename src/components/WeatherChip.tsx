@@ -42,7 +42,7 @@ const WeatherChip = () => {
     }
     return (
         <View style={styles.weatherchip}>
-            <Text style={styles.temp}>{temperature}</Text>
+            <Text style={styles.temp}>{temperature !== null ? `${Math.round(temperature)}°C` : ''}</Text>
             <View style={{ borderLeftWidth: 1, borderLeftColor: '#D6E2F0', height: '100%' }} />
             <Text style={styles.desc}>{description}</Text>
         </View>)
