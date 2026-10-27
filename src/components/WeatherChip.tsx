@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { View, Text } from "react-native";
 import { useState } from "react";
 import { StyleSheet } from "react-native";
+import { WEATHER_URL } from "../config";
 const WeatherChip = () => {
     //4 states
     const [isLoading, setIsLoading] = useState(true);
@@ -12,9 +13,9 @@ const WeatherChip = () => {
         const fetchWeather = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(
-                    'https://api.openweathermap.org/data/2.5/weather?q=Gurugram&units=metric&appid=e37d0158f9a3fc7a34d48dd993e33719'
-                );
+                // Asks our own server (api/weather.ts), which adds the secret
+                // OpenWeather key — so the key never ships inside the app.
+                const response = await fetch(WEATHER_URL);
                 if (!response.ok) {
                     throw new Error('Weather fetch failed');
                 }
